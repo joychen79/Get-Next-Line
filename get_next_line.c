@@ -6,7 +6,7 @@
 /*   By: jingchen <jingchen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 16:34:08 by jingchen          #+#    #+#             */
-/*   Updated: 2023/02/28 17:50:50 by jingchen         ###   ########.fr       */
+/*   Updated: 2023/02/28 20:11:23 by jingchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ char	*get_newbuffer(char *buffer)
 	bufferlen = ft_strlen(buffer);
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	buffer = ft_memmove(buffer, (buffer + i + 1), bufferlen - i + 1);
+	buffer = ft_memmove(buffer, (buffer + i + 1), bufferlen - i + 2);
+	buffer[ft_strlen(buffer)] = '\0';
 	return (buffer);
 }
 
@@ -33,7 +34,10 @@ static char	*read_line(int fd, char *buffer)
 	int			readbyts;
 
 	if (!buffer)
-		buffer = malloc(1);
+	{
+		buffer = malloc(sizeof(char) * 1);
+		buffer[0] = '\0';
+	}
 	temp = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!temp)
 		return (NULL);
@@ -41,19 +45,43 @@ static char	*read_line(int fd, char *buffer)
 	while (readbyts > 0 && !ft_strchr(buffer, '\n'))
 	{
 		readbyts = read(fd, temp, BUFFER_SIZE);
-		if (readbyts < 0)
+		if (readbyts <= 0)
 		{
 			free(temp);
 			free(buffer);
 			return (NULL);
 		}
-		if (readbyts < BUFFER_SIZE)
-			temp[readbyts] = '\0';
+		temp[readbyts] = '\0';
 		buffer = ft_strjoin(buffer, temp);
 	}
 	free(temp);
 	return (buffer);
 }
+
+/*char	*get_newline(char *buffer)
+{
+	char	*sub;
+	int		i;
+	int		j;
+
+	if (!buffer)
+		return (0);
+	i = 0;
+	//len = ft_strlen(buffer);
+	while (buffer[i] && buffer[i] != '\n')
+			i++;
+	sub = malloc(sizeof(char) * (ft_strlen(buffer) - i + 1));
+	if (!sub)
+		return (0);
+	i = i+1;
+	j = 0;
+	while (ft_strlen(buffer) > i)
+		{
+			sub[j++] = buffer[i++];
+		}
+	sub[j] = '\0';
+	return (sub);
+}*/
 
 char	*get_newline(char *buffer)
 {
@@ -74,15 +102,15 @@ char	*get_next_line(int fd)
 	char		*newline;
 	static char	*buffer;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (0);
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
+		return (NULL);
 	buffer = read_line(fd, buffer);
 	newline = get_newline(buffer);
 	buffer = get_newbuffer(buffer);
 	return (newline);
 }
-
-/*int	main(void)
+/*
+int	main(void)
 {
 	int		fd;
 	char	*line;
@@ -108,4 +136,5 @@ char	*get_next_line(int fd)
 	close(fd);
 	system("leaks -q a.out");
 	return (0);
-}*/
+}
+*/

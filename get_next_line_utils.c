@@ -6,13 +6,13 @@
 /*   By: jingchen <jingchen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 16:55:18 by jingchen          #+#    #+#             */
-/*   Updated: 2023/02/28 17:46:41 by jingchen         ###   ########.fr       */
+/*   Updated: 2023/02/28 20:04:18 by jingchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(char *s)
+int	ft_strlen(char *s)
 {
 	int	i;
 
@@ -68,7 +68,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 
 	if (!s)
 		return (0);
-	if (start >= ft_strlen(s))
+	if ((int)start >= ft_strlen(s))
 		return (0);
 	if (len > (ft_strlen(s) - start))
 		len = ft_strlen(s) - start;
@@ -100,4 +100,27 @@ void	*ft_memmove(void *dst, const void*src, size_t len)
 	while (len--)
 		*(dest++) = *(source++);
 	return (dst);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*ptr;
+	size_t	aux;
+	char	*a;
+	size_t	i;
+
+	aux = count * size;
+	if (aux == 1 && count != 1)
+		return (NULL);
+	ptr = malloc(aux);
+	if (!ptr)
+		return (NULL);
+	a = ptr;
+	i = 0;
+	while (i < aux)
+	{
+		*a++ = '\0';
+		i++;
+	}
+	return (ptr);
 }
