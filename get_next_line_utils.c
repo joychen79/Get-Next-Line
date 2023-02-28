@@ -6,7 +6,7 @@
 /*   By: jingchen <jingchen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 16:55:18 by jingchen          #+#    #+#             */
-/*   Updated: 2023/02/22 16:58:37 by jingchen         ###   ########.fr       */
+/*   Updated: 2023/02/28 17:46:41 by jingchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	size_t	i;
 	size_t	j;
 
-	if (!s1 && !s2)
-		return (0);
 	if (!s1 || !s2)
 		return (0);
 	newstr = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
@@ -60,6 +58,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		newstr[i++] = s2[j++];
 	}
 	newstr[i] = '\0';
+	free(s1);
 	return (newstr);
 }
 

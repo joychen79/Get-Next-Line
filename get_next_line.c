@@ -6,7 +6,7 @@
 /*   By: jingchen <jingchen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 16:34:08 by jingchen          #+#    #+#             */
-/*   Updated: 2023/02/22 19:13:52 by jingchen         ###   ########.fr       */
+/*   Updated: 2023/02/28 17:50:50 by jingchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,26 @@ char	*get_newbuffer(char *buffer)
 static char	*read_line(int fd, char *buffer)
 {
 	char		*temp;
-	char		*aux_for_free;
 	int			readbyts;
 
-	if(!buffer)
+	if (!buffer)
 		buffer = malloc(1);
 	temp = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if(!temp)
-		return(NULL);
+	if (!temp)
+		return (NULL);
 	readbyts = 1;
-	while(readbyts > 0 && !ft_strchr(buffer, '\n'))
+	while (readbyts > 0 && !ft_strchr(buffer, '\n'))
 	{
 		readbyts = read(fd, temp, BUFFER_SIZE);
-		/*if(readbyts < 0)
+		if (readbyts < 0)
 		{
 			free(temp);
 			free(buffer);
-			return(NULL);
-		}*/
+			return (NULL);
+		}
 		if (readbyts < BUFFER_SIZE)
 			temp[readbyts] = '\0';
-		aux_for_free = buffer;
 		buffer = ft_strjoin(buffer, temp);
-		free(aux_for_free);
 	}
 	free(temp);
 	return (buffer);
@@ -75,7 +72,7 @@ char	*get_newline(char *buffer)
 char	*get_next_line(int fd)
 {
 	char		*newline;
-	static char	*buffer = NULL;
+	static char	*buffer;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
@@ -85,7 +82,7 @@ char	*get_next_line(int fd)
 	return (newline);
 }
 
-int	main(void)
+/*int	main(void)
 {
 	int		fd;
 	char	*line;
@@ -95,15 +92,20 @@ int	main(void)
 	//fd = 0;
 	line = get_next_line(fd);
 	printf("%s", line);
+	free(line);
 	line = get_next_line(fd);
+	free(line);
+	printf("%s", line);
+	line = get_next_line(fd);
+	free(line);
+	printf("%s", line);
+	line = get_next_line(fd);
+	free(line);
 	printf("%s", line);
 	line = get_next_line(fd);
 	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
+	free(line);
 	close(fd);
 	system("leaks -q a.out");
 	return (0);
-}
+}*/
