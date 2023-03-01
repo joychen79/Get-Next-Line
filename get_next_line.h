@@ -6,7 +6,7 @@
 /*   By: jingchen <jingchen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 16:20:41 by jingchen          #+#    #+#             */
-/*   Updated: 2023/02/28 20:07:27 by jingchen         ###   ########.fr       */
+/*   Updated: 2023/03/01 19:51:50 by jingchen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,11 @@
 #  define BUFFER_SIZE 5
 # endif
 
-int		ft_strlen(char *s);
-char	*ft_strchr(char *s, int c);
-char	*ft_strjoin(char *s1, char	*s2);
-char	*ft_substr(char *s, unsigned int start, size_t len);
-void	*ft_memmove(void *dst, const void*src, size_t len);
-char	*get_next_line(int fd);
-void	*ft_calloc(size_t count, size_t size);
+size_t		ft_strlen(char *s);
+char		*ft_strchr(const char *s, int c);
+char		*ft_strjoin(char *s1, char	*s2);
+char		*get_next_line(int fd);
+void		*ft_calloc(int count, int size);
+char		*join_buffer(char *old, char *new);
 
 #endif
